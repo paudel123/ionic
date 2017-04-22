@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout,  $location, $ionicPopup) {
+.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout,  $location, $ionicPopup, $q, AuthenticationService) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -14,19 +14,29 @@ angular.module('starter.controllers', [])
 
   //--------------------------------------------
    $scope.login = function(user) {
-			
-		if(typeof(user)=='undefined'){
-			$scope.showAlert('Please fill username and password to proceed.');	
-			return false;
-		}
 
-		if(user.username=='demo@gmail.com' && user.password=='demo'){
-			$location.path('/app/dashboard');
-		}else{
-			$scope.showAlert('Invalid username or password.');	
-		}
-		
+     if(typeof(user)=='undefined'){
+        $scope.showAlert('Please fill username and password to proceed.');
+        return false;
+     }
+
+     var postdata = {};
+     postdata.username= user.username;
+     postdata.password =user.password;
+
+     AuthenticationService.Login(user, function (response) {
+       if (response.success) {
+        // AuthenticationService.SetCredentials(username, password);
+         $location.path('/app/dashboard');
+       } else {
+         //FlashService.Error(response.message);
+         //vm.dataLoading = false;
+       }
+     });
+
 	};
+
+
   //--------------------------------------------
   $scope.logout = function() {   $location.path('/app/login');   };
   //--------------------------------------------

@@ -26,8 +26,8 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
 	  $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
 		  $rootScope.authStatus = toState.authStatus;
 		  if($rootScope.authStatus){
-			  
-			
+
+
 		  }
     });
 
@@ -38,7 +38,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
 			$timeout(function(){
 				angular.element(document.querySelector('#leftMenu' )).removeClass("hide");
 			},1000);
-		}	
+		}
 	});
 
 })
